@@ -1,0 +1,283 @@
+high_CO2$0 * = high_CO2$0
+high_CO2$1 * = high_CO2$1
+CA14$0 * = CA14$0
+CA14$1 * = CA14$1
+CO2_porins$0 * = CO2_porins$0
+CO2_porins$1 * = CO2_porins$1
+CO2_entry_of_cell$0 * = CO2_porins$0 or high_CO2$0
+CO2_entry_of_cell$1 * = CO2_porins$1 and high_CO2$1
+HCO3$0 * = CA14$0 or CO2_entry_of_cell$0
+HCO3$1 * = CA14$1 and CO2_entry_of_cell$1
+RHC1$0 * = CA14$0 or HCO3$0
+RHC1$1 * = CA14$1 and HCO3$1
+MPKs$0 * = MPKs$0
+MPKs$1 * = MPKs$1
+MPKsHT1complex$0 * = MPKs$0 or HCO3$0
+MPKsHT1complex$1 * = MPKs$1 and HCO3$1
+HT1$0 * = MPKs_kinase$1 or MPKsHT1complex$1
+HT1$1 * = MPKs_kinase$0 and MPKsHT1complex$0
+CBC12$0 * = HT1$0
+CBC12$1 * = HT1$1
+ABA$0 * = ABA$0
+ABA$1 * = ABA$1
+OST1_basal$0 *= (ABI1$1 or ABI2$1 or HAB1$1) and HT1$1
+OST1_basal$1 *= ABI1$0 and ABI2$0 and HAB1$0 or HT1$0
+OST1_activated$0 *= OST1_basal$0 or HT1$1 or ABA$0 or ABI1$1 or ABI2$1 or HAB1$1
+OST1_activated$1 *= OST1_basal$1 and HT1$0 and ABA$1 and ABI1$0 and ABI2$0 and HAB1$0
+GHR1$0 *= (ROS$0 or ABI2$1) or HT1$1
+GHR1$1 *= ROS$1 and ABI2$0 and HT1$0
+MPKs_kinase$0 *= MPKs$0 or Cac$0 and MPKs_kinase$0
+MPKs_kinase$1 *= MPKs$1 and (Cac$1 or MPKs_kinase$1)
+ABI1$0 *= ROS$1 or CaIM$1
+ABI1$1 *= ROS$0 and CaIM$0
+ABI2$0 *= ROS$1 or CaIM$1
+ABI2$1 *= ROS$0 and CaIM$0
+HAB1$0 *= ROS$1 or CaIM$1
+HAB1$1 *= ROS$0 and CaIM$0
+RbohDF$0 *= OST1_basal$0
+RbohDF$1 *= OST1_basal$1
+CIS$0 *= cADPR$0
+CIS$1 *= cADPR$1
+cADPR$0 *= ADPRc$0
+cADPR$1 *= ADPRc$1
+ADPRc$0 *= 8nitro_cGMP$0
+ADPRc$1 *= 8nitro_cGMP$1
+8nitro_cGMP$0 *= cGMP$0 or NO$0
+8nitro_cGMP$1 *= cGMP$1 and NO$1
+cGMP$0 *= NOGC$0
+cGMP$1 *= NOGC$1
+NOGC$0 *= NO$0
+NOGC$1 *= NO$1
+NIA1/2$0 *= ROS$0
+NIA1/2$1 *= ROS$1
+NO$0 *= NIA1/2$0 
+NO$1 *= NIA1/2$1 
+ROS$0 *= RbohDF$0
+ROS$1 *= RbohDF$1
+CaIM$0* = GHR1$0
+CaIM$1* = GHR1$1
+Cac$0* = (CIS$0 and CaIM$0) or Ca_ATPase$1
+Cac$1* = (CIS$1 or CaIM$1) and Ca_ATPase$0
+Ca_ATPase$0* = Cac$0
+Ca_ATPase$1* = Cac$1
+CPKs$0* = Cac$0 and GHR1$0 and CPKs$0
+CPKs$1* = Cac$1 or GHR1$1 or CPKs$1
+SLAC1_CO2$0* = ABI1$1 or ABI2$1 or GHR1$0 or OST1_basal$0 or HCO3$0 or CBC12$1
+SLAC1_CO2$1* = ABI1$0 and ABI2$0 and GHR1$1 and OST1_basal$1 and HCO3$1 and CBC12$0
+SLAC1_nonCO2$0* = ABI1$1 or ABI2$1 or GHR1$0 or MPKs_kinase$0 or OST1_basal$0 or (CPKs$0 and OST1_activated$0)
+SLAC1_nonCO2$1* = ABI1$0 and ABI2$0 and GHR1$1 and MPKs_kinase$1 and OST1_basal$1 and (CPKs$1 or OST1_activated$1)
+AnionEM$0* = SLAC1_CO2$0 and SLAC1_nonCO2$0 and QUAC1$0
+AnionEM$1* = SLAC1_CO2$1 or SLAC1_nonCO2$1 or QUAC1$1
+QUAC1$0 * = Cac$0 or OST1_basal$0
+QUAC1$1 * = Cac$1 and OST1_basal$1
+H+_ATPase$0 *= Cac$1 or ROS$1
+H+_ATPase$1 *= Cac$0 and ROS$0
+KEV$0* = Cac$0
+KEV$1* = Cac$1
+Depolarization$0* = (AnionEM$0 and Cac$0 and KEV$0) or (H+_ATPase$1 and K+_efflux$1)
+Depolarization$1* = (AnionEM$1 or Cac$1 or KEV$1) and (H+_ATPase$0 or K+_efflux$0)
+KOUT$0* = Depolarization$0
+KOUT$1* = Depolarization$1
+K+_efflux$0* = (KEV$0 and K+_efflux$0) or KOUT$0
+K+_efflux$1* = (KEV$1 or K+_efflux$1) and KOUT$1
+Aquaporins$0 *= OST1_basal$0
+Aquaporins$1 *= OST1_basal$1
+H2O_Efflux$0* = AnionEM$0 or K+_efflux$0 or Aquaporins$0
+H2O_Efflux$1* = AnionEM$1 and K+_efflux$1 and Aquaporins$1
+Closure$0* = H2O_Efflux$0
+Closure$1* = H2O_Efflux$1
+
+#####
+2023-0811 remove MPK self-edge
+MPKs_kinase$0 *= MPKs$0 or Cac$0
+MPKs_kinase$1 *= MPKs$1 and (Cac$1)
+
+orginal function
+MPKs_kinase$0 *= MPKs$0 or Cac$0 and MPKs_kinase$0
+MPKs_kinase$1 *= MPKs$1 and (Cac$1 or MPKs_kinase$1)
+
+2023-0726 remove GPA1 
+# add HT1 to OST1
+OST1_basal$0 *= (ABI1$1 or ABI2$1 or HAB1$1) and HT1$1
+OST1_basal$1 *= ABI1$0 and ABI2$0 and HAB1$0 or HT1$0
+
+# need to add back ABI1 and ABI2 in SLAC1 as a consequence. previous functions: 
+SLAC1_CO2$0* = GHR1$0 or OST1_basal$0 or HCO3$0 or CBC12$1
+SLAC1_CO2$1* = GHR1$1 and OST1_basal$1 and HCO3$1 and CBC12$0
+SLAC1_nonCO2$0* = GHR1$0 or MPKs_kinase$0 or OST1_basal$0 or (CPKs$0 and OST1_activated$0)
+SLAC1_nonCO2$1* = GHR1$1 and MPKs_kinase$1 and OST1_basal$1 and (CPKs$1 or OST1_activated$1)
+
+
+# alternative - activate RBoH
+RbohDF$0 *= OST1_basal$0 and HCO3$0
+RbohDF$1 *= OST1_basal$1 or HCO3$1
+or 
+RbohDF$0 *= OST1_basal$0 and HT1$1
+RbohDF$1 *= OST1_basal$1 or HT1$0
+or
+RbohDF$0 *= OST1_basal$0 and CBC12$1
+RbohDF$1 *= OST1_basal$1 or CBC12$0
+
+# removed GPA1 related functions
+GPA1$0 * = (CA14$0 or HCO3$0) and HT1$1
+GPA1$1 * = CA14$1 and HCO3$1 or HT1$0
+ABI1$0 *= (GPA1$1 or ROS$1 or CaIM$1)
+ABI1$1 *= GPA1$0 and ROS$0 and CaIM$0
+ABI2$0 *= (GPA1$1 or ROS$1 or CaIM$1)
+ABI2$1 *= GPA1$0 and ROS$0 and CaIM$0
+HAB1$0 *= GPA1$1 or ROS$1 or CaIM$1
+HAB1$1 *= GPA1$0 and ROS$0 and CaIM$0
+
+
+
+
+-2023-0522 remove ABI1/2 from SLAC1 function
+#new 
+SLAC1_CO2$0* = GHR1$0 or OST1_basal$0 or HCO3$0 or CBC12$1
+SLAC1_CO2$1* = GHR1$1 and OST1_basal$1 and HCO3$1 and CBC12$0
+SLAC1_nonCO2$0* = GHR1$0 or MPKs_kinase$0 or OST1_basal$0 or (CPKs$0 and OST1_activated$0)
+SLAC1_nonCO2$1* = GHR1$1 and MPKs_kinase$1 and OST1_basal$1 and (CPKs$1 or OST1_activated$1)
+
+#old
+SLAC1_CO2$0* = ABI1$1 or ABI2$1 or GHR1$0 or OST1_basal$0 or HCO3$0 or CBC12$1
+SLAC1_CO2$1* = ABI1$0 and ABI2$0 and GHR1$1 and OST1_basal$1 and HCO3$1 and CBC12$0
+SLAC1_nonCO2$0* = ABI1$1 or ABI2$1 or GHR1$0 or MPKs_kinase$0 or OST1_basal$0 or (CPKs$0 and OST1_activated$0)
+SLAC1_nonCO2$1* = ABI1$0 and ABI2$0 and GHR1$1 and MPKs_kinase$1 and OST1_basal$1 and (CPKs$1 or OST1_activated$1)
+
+
+
+-2023-0413 - MPKs into three nodes;
+MPKs$0 * = MPKs$0
+MPKs$1 * = MPKs$1
+MPKsHT1complex$0 * = MPKs$0 or HCO3$0
+MPKsHT1complex$1 * = MPKs$1 and HCO3$1
+HT1$0 * = MPKs_kinase$1 or MPKsHT1complex$1
+HT1$1 * = MPKs_kinase$0 and MPKsHT1complex$0
+MPKs_kinase$0 *= Cac_kinase$0 and MPKs_kinase$0
+MPKs_kinase$1 *= Cac_kinase$1 or MPKs_kinase$1
+
+-Add CBC1/2
+CBC12$0 * = HT1$0
+CBC12$1 * = HT1$1
+SLAC1_CO2$0* = ABI1$1 or ABI2$1 or GHR1$0 or OST1_basal$0 or HCO3$0 or CBC12$1
+SLAC1_CO2$1* = ABI1$0 and ABI2$0 and GHR1$1 and OST1_basal$1 and HCO3$1 and CBC12$0
+
+- remove NO and ROS in KOUT
+KOUT$0* = (NO$1 and ROS$1) and Depolarization$0
+KOUT$1* = (NO$0 or ROS$0) or Depolarization$1
+
+
+-2023-0302 - decision is to keep HCO3 in HT1's function, with "OR" rule
+	HT1$0 * = MPKs$1 and HCO3$1 or RHC1$1 - no ambient CO2 case can get closure
+	HT1$0 * = MPKs$1 and HCO3$1 or RHC1$1 or MPK$1 and sth$1
+
+-2023-0222 - add "not HCO3" in HT1 rule, according to the Schroeder Science Advances paper
+HT1$0 * = MPKs$1 or RHC1$1
+HT1$1 * = MPKs$0 and RHC1$0
+HT1$0 * = MPKs$1 or HCO3$1 or RHC1$1
+HT1$1 * = MPKs$0 and HCO3$0 and RHC1$0
+HT1$0 * = MPKs$1 and HCO3$1 or RHC1$1
+HT1$1 * = (MPKs$0 or HCO3$0) and RHC1$0 # doesn't work under External Calcium
+
+MPKs$0 *= Cac$0 and MPKs$0
+MPKs$1 *= Cac$1 or MPKs$1
+MPKs$0 *= Cac$0 and MPKs$0 and HCO3$0 
+MPKs$1 *= Cac$1 or MPKs$1 or HCO3$1 
+
+-2023-0208 gpa1 mutant test - Backup GPA1 rule
+GPA1$0 * = (CA14$0 or HCO3$0) and HT1$1
+GPA1$1 * = (CA14$1 and HCO3$1 or HT1$0)
+
+-2023-0130 reverting RBOH rule to "OR"
+RbohDF$0 *= OST1_basal$0 and GPA1$0
+RbohDF$1 *= OST1_basal$1 or GPA1$1
+
+-2023-0119 tesing removal of OST1_basal in RBOH
+#new
+RbohDF$0 *= OST1_basal$0 or GPA1$0
+RbohDF$1 *= OST1_basal$1 and GPA1$1
+
+#old
+RbohDF$0 *= OST1_basal$0 and GPA1$0
+RbohDF$1 *= OST1_basal$1 or GPA1$1
+
+# removing NOS temporarily
+NOS$0 *= NOS$0
+NOS$1 *= NOS$1
+NO$0 *= NIA1/2$0 or NOS$0
+NO$1 *= NIA1/2$1 and NOS$1
+
+-2022-1118 test adding NO as necessary in PP2Cs - no inconsistencies in the ~10 main tests
+ABI1$0 *= (GPA1$1 or ROS$1 or CaIM$1) and NO$1
+ABI1$1 *= GPA1$0 and ROS$0 and CaIM$0 or NO$0
+ABI2$0 *= (GPA1$1 or ROS$1 or CaIM$1) and NO$1
+ABI2$1 *= GPA1$0 and ROS$0 and CaIM$0 or NO$0
+
+-2022-1114 changed RCARs to ABA. Makes no difference in model, as it is equivalent to a name change
+
+-2022-1109 add NOS, an input node that provides NO
+NOS$0 *= NOS$0
+NOS$1 *= NOS$1
+NO$0 *= NIA1/2$0 and NOS$0
+NO$1 *= NIA1/2$1 or NOS$1
+	- adding CA1/4 back into GPA1
+GPA1$0 * = CA14$0 or HCO3$0 and HT1$1
+GPA1$1 * = CA14$1 and HCO3$1 or HT1$0
+
+-2022-1025 change KEV selfloop to K+efflux; removed CO2 kinase
+KEV$0* = Cac$0 or KEV$0
+KEV$1* = Cac$1 or KEV$1
+K+_efflux$0* = KEV$0 or KOUT$0
+K+_efflux$1* = KEV$1 and KOUT$1
+
+
+-2022-1023 Merge CPKS into a single node
+CPK3/21$0* = Cac$0 and GHR1$0 and CPK3/21$0
+CPK3/21$1* = Cac$1 or GHR1$1 or CPK3/21$1
+CPK6/23$0* = GHR1$0 and CPK6/23$0
+CPK6/23$1* = GHR1$1 or CPK6/23$1
+SLAC1_nonCO2$0* = ABI1$1 or ABI2$1 or GHR1$0 or MPKs$0 or OST1_basal$0 or (CPK3/21$0 or CPK6/23$0) and OST1_elevation$0
+SLAC1_nonCO2$1* = ABI1$0 and ABI2$0 and GHR1$1 and MPKs$1 and OST1_basal$1 and (CPK3/21$1 and CPK6/23$1 or OST1_elevation$1)
+
+-0805
+remove ROS from the function of 8-nitro-cGMP. 
+Old rules:
+8nitro_cGMP$0 *= cGMP$0 or NO$0 or ROS$0
+8nitro_cGMP$1 *= cGMP$1 and NO$1 and ROS$1
+
+-0517 SLAC1 split into two nodes
+SLAC1_CO2$0* = ABI1$1 or ABI2$1 or GHR1$0 or MPKs$0 or OST1_basal$0 or CO2_kinase$0
+SLAC1_CO2$1* = ABI1$0 and ABI2$0 and GHR1$1 and MPKs$1 and OST1_basal$1 and CO2_kinase$1
+SLAC1_nonCO2$0* = ABI1$1 or ABI2$1 or GHR1$0 or MPKs$0 or OST1_basal$0 or (CPK3/21$0 or CPK6/23$0) and OST1_elevation$0
+SLAC1_nonCO2$1* = ABI1$0 and ABI2$0 and GHR1$1 and MPKs$1 and OST1_basal$1 and (CPK3/21$1 and CPK6/23$1 or OST1_elevation$1)
+AnionEM$0* = SLAC1_CO2$0 and SLAC1_nonCO2$0 and QUAC1$0
+AnionEM$1* = SLAC1_CO2$1 or SLAC1_nonCO2$1 or QUAC1$1
+
+# original rule
+SLAC1$0* = ABI1$1 or ABI2$1 or GHR1$0 or MPKs$0 or OST1_basal$0 or ((CPK3/21$0 or CPK6/23$0) and OST1_elevation$0 and CO2_kinase$0)
+SLAC1$1* = ABI1$0 and ABI2$0 and GHR1$1 and MPKs$1 and OST1_basal$1 and (CPK3/21$1 and CPK6/23$1 or OST1_elevation$1 or CO2_kinase$1)
+
+
+-0516 test if inputs of GPA1 can be removed
+old GPA1 rule:
+GPA1$0 * = (CA14$0 or HCO3$0) and HT1$1
+GPA1$1 * = CA14$1 and HCO3$1 or HT1$0
+
+-0427 add QUAC1 back
+QUAC1$0 * = Cac$0 or OST1_basal$0
+QUAC1$1 * = Cac$1 and OST1_basal$1
+
+-0419 changing HT1 in GPA1 rule
+GPA1$0 * = CA14$0 or HCO3$0 or HT1$1
+GPA1$1 * = CA14$1 and HCO3$1 and HT1$0
+
+-0412- add NO-> CIS pathway back
+
+- 0405 - flipping HT1 - GPA1 direction (GHR1 may be involved too)
+GPA1$0 * = CA14$0 or HCO3$0 or HT1$1
+GPA1$1 * = CA14$1 and HCO3$1 and HT1$0
+HT1$0 * = MPKs$1 or RHC1$1
+HT1$1 * = MPKs$0 and RHC1$0
+GHR1$0 *= (ROS$0 or ABI2$1) and HT1$1
+GHR1$1 *= ROS$1 and ABI2$0 or HT1$0
+
