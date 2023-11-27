@@ -1,4 +1,4 @@
-This folder includes a sample statistical analysis.
+This folder includes a sample statistical analysis and the full data for the experiments.
 
 Files:
 1. CO2 model experiments statistical analysis.ipynb
