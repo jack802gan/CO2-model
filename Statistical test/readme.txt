@@ -8,7 +8,7 @@ Files:
 - This is the raw data. It includes four sheets of aperture measurement (unit: uM) for Fig. 7, Fig. 8 and Fig. S1 in the SI.
 
 3. CO2_model_data_20231120Fig_7A_melted.csv
-- This is the melted data of Fig. 7A, used for ANOVA. Note this dataset and datasets can be produced with the code in 1. from data 2, thus this file may not necessary. 
+- This is the melted data of Fig. 7A, used for analysis. Note this dataset and datasets can be produced with the code in 1. from data 2, thus this file may not necessary. 
 
 
 
